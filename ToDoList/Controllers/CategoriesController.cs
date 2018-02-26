@@ -44,8 +44,7 @@ namespace ToDoList.Controllers
         Dictionary<string, object> model = new Dictionary<string, object>();
         Category foundCategory = Category.Find(id);
         List<Item> categoryItems = foundCategory.GetItems();
-        Item newItem = new Item(Request.Form["new-item"], Request.Form["raw-date"]);
-        newItem.SetCatId(foundCategory.GetId());
+        Item newItem = new Item(Request.Form["new-item"]);
         categoryItems.Add(newItem);
         newItem.Save();
         model.Add("items", categoryItems);
@@ -59,30 +58,6 @@ namespace ToDoList.Controllers
       Category thisCategory = Category.Find(id);
       thisCategory.Delete();
       return RedirectToAction("Index");
-    }
-
-    [HttpGet("/categories/{id}/items/sort-asc")]
-    public ActionResult SortAsc(int id)
-    {
-      Category sortCat = Category.Find(id);
-      List<Item> sortedItems = new List<Item>{};
-      sortedItems = sortCat.SortAsc();
-      Dictionary<string, object> model = new Dictionary<string, object>();
-      model.Add("category", sortCat);
-      model.Add("items", sortedItems);
-      return View("Detail", model);
-    }
-
-    [HttpGet("/categories/{id}/items/sort-desc")]
-    public ActionResult SortDesc(int id)
-    {
-      Category sortCat = Category.Find(id);
-      List<Item> sortedItems = new List<Item>{};
-      sortedItems = sortCat.SortDesc();
-      Dictionary<string, object> model = new Dictionary<string, object>();
-      model.Add("category", sortCat);
-      model.Add("items", sortedItems);
-      return View("Detail", model);
     }
   }
 }

@@ -5,3 +5,12 @@ a {
 a:hover {
   text-decoration: none;
 }
+
+.button {
+  color: black;
+}
+
+.button:hover {
+  color: white;
+  font-size: 24px;
+}
