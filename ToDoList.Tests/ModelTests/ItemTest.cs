@@ -24,7 +24,7 @@ namespace ToDoList.Tests
     {
       //arrange
       string controlDesc = "Go to store";
-      Item newItem = new Item("Go to store", "2009-03-29");
+      Item newItem = new Item("Go to store");
 
       //act
       string result = newItem.GetDescription();
@@ -47,7 +47,7 @@ namespace ToDoList.Tests
     public void Save_SavesToDatabase_ItemList()
     {
       //arrange
-      Item testItem = new Item("Mow the lawn", "2008-03-02");
+      Item testItem = new Item("Mow the lawn");
 
       //act
       testItem.Save();
@@ -62,8 +62,8 @@ namespace ToDoList.Tests
     public void Equals_ReturnsTrueIfDescriptionsAreTheSame_Item()
     {
       //Arrange, act
-      Item firstItem = new Item("Mow the lawn", "2008-03-02");
-      Item secondItem = new Item("Mow the lawn", "2008-03-02");
+      Item firstItem = new Item("Mow the lawn");
+      Item secondItem = new Item("Mow the lawn");
 
       //Assert
       Assert.AreEqual(firstItem, secondItem);
@@ -73,7 +73,7 @@ namespace ToDoList.Tests
     public void Save_AssignsIdToObject_Id()
     {
       //arrange
-      Item testItem = new Item("Mow the lawn", "2008-03-02");
+      Item testItem = new Item("Mow the lawn");
 
       //act
       testItem.Save();
@@ -90,7 +90,7 @@ namespace ToDoList.Tests
     public void Find_FindsItemInDatabase_Item()
     {
       //Arrange
-      Item testItem = new Item("Mow the lawn", "2008-03-02");
+      Item testItem = new Item("Mow the lawn");
       testItem.Save();
 
       //act
@@ -100,27 +100,14 @@ namespace ToDoList.Tests
       Assert.AreEqual(testItem, foundItem);
     }
 
-    [TestMethod]
-    public void GetFormattedDate_FetchDate_Date()
-    {
-      //arrange
-      Item testItem = new Item("Mow the lawn", "2008-03-02");
-      DateTime controlDate = new DateTime(2008, 03, 02);
 
-      //act
-      testItem.SetDate();
-      DateTime result = testItem.GetFormattedDate();
-
-      //assert
-      Assert.AreEqual(result, controlDate);
-    }
 
     [TestMethod]
     public void Edit_UpdatesItemInDatabase_String()
     {
       //arrange
       string firstDescription = "Walk the Dog";
-      Item testItem = new Item(firstDescription, "2008-01-01", 1);
+      Item testItem = new Item(firstDescription, 1);
       testItem.Save();
       string secondDescription = "Mow the Lawn";
 
@@ -136,10 +123,10 @@ namespace ToDoList.Tests
     public void Delete_DeleteItemInDatabase_Void()
     {
       //arrange
-      Item testItem1 = new Item("Pet a cat", "2008-01-01", 1);
+      Item testItem1 = new Item("Pet a cat", 1);
       testItem1.Save();
       List<Item> originalList = Item.GetAll(); // should be 1 item
-      Item testItem2 = new Item("Pet a dog", "2008-01-01", 2);
+      Item testItem2 = new Item("Pet a dog", 2);
       testItem2.Save();
 
       //act
@@ -150,11 +137,69 @@ namespace ToDoList.Tests
       CollectionAssert.AreEqual(originalList, newList);
     }
 
-    // [TestMethod]
-    // public void SortAsc_ReturnSortedList_Void()
+    [TestMethod]
+    public void AddCategory_AddsCategoryToItem_CategoryList()
+    {
+      //Arrange
+      Item testItem = new Item("Mow the lawn");
+      testItem.Save();
 
+      Category testCategory = new Category("Home stuff");
+      testCategory.Save();
 
-    //TODO write a test to make sure category ID is getting saved.
+      //Act
+      testItem.AddCategory(testCategory);
+
+      List<Category> result = testItem.GetCategories();
+      List<Category> testList = new List<Category>{testCategory};
+
+      //Assert
+      CollectionAssert.AreEqual(testList, result);
+    }
+
+    [TestMethod]
+    public void GetCategories_ReturnsAllItemCategories_CategoryList()
+    {
+      //Arrange
+      Item testItem = new Item("Mow the lawn");
+      testItem.Save();
+
+      Category testCategory1 = new Category("Home stuff");
+      testCategory1.Save();
+
+      Category testCategory2 = new Category("Work stuff");
+      testCategory2.Save();
+
+      //Act
+      testItem.AddCategory(testCategory1);
+      List<Category> result = testItem.GetCategories();
+      List<Category> testList = new List<Category> {testCategory1};
+
+      //Assert
+      CollectionAssert.AreEqual(testList, result);
+    }
+
+    [TestMethod]
+    public void Delete_DeletesItemAssociationsFromDatabase_ItemList()
+    {
+      //Arrange
+      Category testCategory = new Category("Home stuff");
+      testCategory.Save();
+
+      string testDescription = "Mow the lawn";
+      Item testItem = new Item(testDescription);
+      testItem.Save();
+
+      //Act
+      testItem.AddCategory(testCategory);
+      testItem.Delete();
+
+      List<Item> resultCategoryItems = testCategory.GetItems();
+      List<Item> testCategoryItems = new List<Item> {};
+
+      //Assert
+      CollectionAssert.AreEqual(testCategoryItems, resultCategoryItems);
+    }
 
   }
 }
