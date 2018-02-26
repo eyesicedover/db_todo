@@ -6,7 +6,7 @@
 <h1>To Do List</h1>
 <hr />
 <h2>Edit Item: @Model.GetDescription()</h2>
-<form action="/items/@Model.GetId()/update" method="post">
+<form action="/" method="post">
   <div class="form-group">
     <label for="newname">Description</label>
     <input type="text" name="newname" value="@Model.GetDescription()" class="form-control">

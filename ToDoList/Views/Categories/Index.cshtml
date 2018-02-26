@@ -17,7 +17,9 @@
     <tr>
       <td>@category.GetName()</td>
       <td><a href="/categories/@category.GetId()"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span></a></td>
-      <td><a href="/categories/@category.GetId()/delete"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td>
+      <form action="/categories/@category.GetId()/delete" method="post">
+      <td><button class="button" type="submit"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></td>
+      </form>
     </tr>
   }
   </tbody>

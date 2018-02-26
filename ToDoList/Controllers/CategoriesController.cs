@@ -6,12 +6,13 @@ namespace ToDoList.Controllers
 {
   public class CategoriesController : Controller
   {
-    [Route("/")]
+    [HttpGet("/")]
     public ActionResult Index()
     {
       List<Category> allCats = Category.GetAll();
       return View("Index", allCats);
     }
+
 
     [HttpGet("/categories/new")]
     public ActionResult CreateCatForm()
@@ -47,17 +48,20 @@ namespace ToDoList.Controllers
         Item newItem = new Item(Request.Form["new-item"]);
         categoryItems.Add(newItem);
         newItem.Save();
+        foundCategory.AddItem(newItem);
         model.Add("items", categoryItems);
         model.Add("category", foundCategory);
         return View("Detail", model);
     }
 
-    [HttpGet("/categories/{id}/delete")]
+    [HttpPost("/categories/{id}/delete")]
     public ActionResult DeleteCategory(int id)
     {
       Category thisCategory = Category.Find(id);
+      thisCategory.DeleteCategoryItems();
       thisCategory.Delete();
-      return RedirectToAction("Index");
+      List<Category> allCats = Category.GetAll();
+      return View("Index", allCats);
     }
   }
 }

@@ -63,5 +63,29 @@ namespace ToDoList.Tests
       CollectionAssert.AreEqual(testList, savedItems);
     }
 
+    [TestMethod]
+    public void Test_AddItem_AddsItemToCategory()
+    {
+      //Arrange
+      Category testCategory = new Category("Household chores");
+      testCategory.Save();
+
+      Item testItem = new Item("Mow the lawn");
+      testItem.Save();
+
+      Item testItem2 = new Item("Water the garden");
+      testItem2.Save();
+
+      //Act
+      testCategory.AddItem(testItem);
+      testCategory.AddItem(testItem2);
+
+      List<Item> result = testCategory.GetItems();
+      List<Item> testList = new List<Item>{testItem, testItem2};
+
+      //Assert
+      CollectionAssert.AreEqual(testList, result);
+    }
+
   }
 }

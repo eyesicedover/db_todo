@@ -28,5 +28,13 @@ namespace ToDoList.Controllers
       Item thisItem = Item.Find(id);
       return View(thisItem);
     }
+
+    [HttpPost("/items/{id}/delete")]
+    public ActionResult Delete(int id)
+    {
+      Item thisItem = Item.Find(id);
+      thisItem.Delete();
+      return View("Transition");
+    }
   }
 }

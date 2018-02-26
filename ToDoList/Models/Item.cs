@@ -182,7 +182,7 @@ namespace ToDoList.Models
 
       MySqlParameter itemIdParameter = new MySqlParameter();
       itemIdParameter.ParameterName = "@ItemId";
-      itemIdParameter.Value = this.GetId();
+      itemIdParameter.Value = this._id;
       cmd.Parameters.Add(itemIdParameter);
 
       cmd.ExecuteNonQuery();
