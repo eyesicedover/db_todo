@@ -2,7 +2,6 @@
   Layout = "_Layout";
 }
 
-<h1>To Do List</h1>
 <table class="table table-bordered">
   <thead>
     <tr>
@@ -16,9 +15,9 @@
   {
     <tr>
       <td>@category.GetName()</td>
-      <td><a href="/categories/@category.GetId()"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span></a></td>
+      <td><a href="/categories/@category.GetId()">📜</a></td>
       <form action="/categories/@category.GetId()/delete" method="post">
-      <td><button class="button" type="submit"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></td>
+      <td><button class="button" type="submit">✂️</button></td>
       </form>
     </tr>
   }
