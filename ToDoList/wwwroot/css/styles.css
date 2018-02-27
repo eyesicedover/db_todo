@@ -14,3 +14,10 @@ a:hover {
   color: white;
   font-size: 24px;
 }
+
+
+body {
+  background-image: url("https://media.giphy.com/media/12BgMxV0fdAxWw/giphy.gif");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
